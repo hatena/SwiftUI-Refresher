@@ -40,6 +40,10 @@ struct ContentView: View {
                     Text("Go to details with system style - no image")
                         .padding()
                 }
+                NavigationLink(destination: DetailsView(style: .system2)) {
+                    Text("Go to details with system2 style animation")
+                        .padding()
+                }
                 NavigationLink(destination: DetailsSearch()) {
                     Text("Go to details with system style and search bar in header")
                         .padding()
@@ -192,7 +196,7 @@ public struct EmojiRefreshView: View {
             case .pulling:
                 Text("😯")
                     .rotationEffect(.degrees(360 * state.dragPosition))
-            case .refreshing:
+            case .refreshing, .refreshed:
                 Text("😂")
                     .rotationEffect(.degrees(self.isAnimating ? 360.0 : 0.0))
                         .onAppear {

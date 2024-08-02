@@ -52,7 +52,7 @@ public struct SystemStyleRefreshSpinner<RefreshView: View>: View {
                     .frame(maxWidth: .infinity)
                     .position(x: geometry.size.width / 2, y: -position + refreshHoldPoint)
                     .opacity(state.modeAnimated == .refreshing ? 1 : normalize(from: opacityClipPoint, to: 1, by: state.dragPosition))
-                    .animation(.easeInOut(duration: 0.2), value: state.modeAnimated == .notRefreshing)
+                    .animation(.easeInOut(duration: 0.2), value: state.modeAnimated == .refreshed)
             }
         }
     }
@@ -67,9 +67,10 @@ public struct System2StyleRefreshSpinner<RefreshView: View>: View {
     
     func offset() -> CGFloat {
         switch state.mode {
-        case .refreshing, .notRefreshing:
+        case .notRefreshing, .refreshing, .refreshed:
             return refreshHoldPoint
-        default: return lerp(from: 0, to: refreshHoldPoint, by: state.dragPosition)
+        case .pulling:
+            return lerp(from: 0, to: refreshHoldPoint, by: state.dragPosition)
         }
     }
     
@@ -80,7 +81,31 @@ public struct System2StyleRefreshSpinner<RefreshView: View>: View {
                     .frame(maxWidth: .infinity)
                     .position(x: geometry.size.width / 2, y: offset())
                     .opacity(state.modeAnimated == .refreshing ? 1 : normalize(from: opacityClipPoint, to: 1, by: state.dragPosition))
-                    .animation(.easeInOut(duration: 0.2), value: state.modeAnimated == .notRefreshing)
+                    .animation(.easeInOut(duration: 0.2), value: state.modeAnimated == .refreshed)
+            }
+        }
+    }
+}
+
+public struct System3StyleRefreshSpinner<RefreshView: View>: View {
+    var state: RefresherState
+    var refreshHoldPoint: CGFloat
+    var refreshView: RefreshView
+
+    @Binding var headerInset: CGFloat
+
+    func offset(height: CGFloat) -> CGFloat {
+        return height - refreshHoldPoint
+    }
+
+    public var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            GeometryReader { geometry in
+                refreshView
+                    .frame(maxWidth: .infinity)
+                    .position(x: geometry.size.width / 2, y: offset(height: geometry.frame(in: .local).height))
+                    .animation(.easeInOut(duration: 0.2), value: state.modeAnimated == .refreshed)
+                    .clipped()
             }
         }
     }

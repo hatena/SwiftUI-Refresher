@@ -32,7 +32,7 @@ public struct DefaultRefreshView: View {
     @Environment(\.colorScheme) var colorScheme
     
     public var body: some View {
-        if state.style == .system || state.style == .system2 {
+        if state.style == .system || state.style == .system2  || state.style == .system3 {
             VStack {
                 UIActivityView(style: .large, isAnimating: $isAnimating)
                     .rotationEffect(.degrees(state.mode == .pulling ? 360 * state.dragPosition : 360))
