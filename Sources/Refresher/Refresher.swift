@@ -253,7 +253,7 @@ public struct RefreshableScrollView<Content: View, RefreshView: View>: View {
                 system3StyleRefreshSpinner
                     .frame(height: system3SpinnerHeight)
             }, alignment: .top)
-            .introspect(.scrollView, on: .iOS(.v14, .v15, .v16, .v17, .v18)) { scrollView in
+            .introspect(.scrollView, on: .iOS(.v14, .v15, .v16, .v17, .v18, .v26)) { scrollView in
                 DispatchQueue.main.async {
                     uiScrollView = scrollView
                 }
